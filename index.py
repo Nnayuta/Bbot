@@ -52,6 +52,8 @@ while checkServerStatus():
     errList = {
         'SocketError': 'SocketError',
         'idle': 'idle',
+        'UserNotLogged': 'UserNotLogged',
+        'unstable': 'unstable',
     }
     for err in errList:
         if pyautogui.locateOnScreen('./src/' + err + '.png', grayscale=True, confidence=0.8 ) != None:
