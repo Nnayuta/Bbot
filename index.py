@@ -18,7 +18,7 @@ def click(x,y):
 #retorna o valor em segundos quando recebido em minutos.
 def returnSeconds(min):
     """
-    Retorna um valor em segundos a partir de um valor em minutos.
+    Retorna um valor em segundos a partir de um valor em minutos. Ex: 1 minuto = 60 segundos.
     """
     seconds = min*60
     return seconds
@@ -27,7 +27,7 @@ def returnSeconds(min):
 #verifica o status do servidor
 def checkServerStatus():
     """
-    Verifica o status do servidor.
+    Verifica o status do servidor. Se estiver online, retorna True.
     """
     if pyautogui.locateOnScreen('./src/statusMaintenace.png', confidence=0.9) != None or pyautogui.locateOnScreen('./src/statusOffline.png', confidence=0.9) != None:
         while True:
@@ -37,7 +37,7 @@ def checkServerStatus():
                 return True
             else:
                 print(time.strftime(" %H:%M:%S") + ' - [Bombot] > Servidor OFFLINE ou MANUTENÇÃO.')
-                time.sleep(20)
+                time.sleep(returnSeconds(2)) #Verifica a cada 2 minutos.
 
     elif pyautogui.locateOnScreen('./src/statusOnline.png', confidence=0.9) != None:
         print(time.strftime(" %H:%M:%S") + ' - [Bombot] > Servidor online.')
