@@ -36,7 +36,10 @@ def checkServerStatus():
                 print(time.strftime(" %H:%M:%S") + ' - [Bombot] > Servidor voltou ao normal.')
                 return True
             else:
-                print(time.strftime(" %H:%M:%S") + ' - [Bombot] > Servidor OFFLINE ou MANUTENÇÃO.')
+                if pyautogui.locateOnScreen('./src/statusMaintenace.png', confidence=0.9) != None:
+                    print(time.strftime(" %H:%M:%S") + ' - [Bombot] > Servidor em manutenção.')
+                elif pyautogui.locateOnScreen('./src/statusOnline.png', confidence=0.9) != None:
+                    print(time.strftime(" %H:%M:%S") + ' - [Bombot] > Servidor offline.')
                 time.sleep(returnSeconds(2)) #Verifica a cada 2 minutos.
 
     elif pyautogui.locateOnScreen('./src/statusOnline.png', confidence=0.9) != None:
@@ -93,7 +96,7 @@ while checkServerStatus():
         if pyautogui.locateOnScreen('./src/maxStamina.png') != None:
             workAll = pyautogui.locateOnScreen('./src/workAll.png', grayscale=True, confidence=0.8)
             x,y = pyautogui.center(workAll)
-            print(time.strftime(" %H:%M:%S") + ' - [Bombot] > Encontrei 1 ou mais Herois com stamina full, Vou colocar todos para Work.')
+            print(time.strftime(" %H:%M:%S") + ' - [Bombot] > Heroi(s) com stamina full. Colocando todos os herois para trabalhar.')
             click(x,y)
             workOn = True
             time.sleep(random.uniform(2,3))
@@ -102,28 +105,34 @@ while checkServerStatus():
             time.sleep(random.uniform(1,2))
             if pyautogui.locateOnScreen('./src/workOn.png') != None:
                 workOn = True
-                print(time.strftime(" %H:%M:%S") + ' - [Bombot] > Encontrei um heroi em Work.')
+                print(time.strftime(" %H:%M:%S") + ' - [Bombot] > Encontrei heroi(s) em Work.')
             else:
                 workOn = False
                 time_duration = random.uniform(returnSeconds(4),returnSeconds(5)) #Tempo em minutos que a janela vai fica aguardando um heroi fica full. apos isso feche e abra novamente.
                 time_start = time.time()
 
                 while time.time() - time_start < time_duration:
-                    print(time.strftime(" %H:%M:%S") + ' - [Bombot] > Não tem heroi em Work, Aguardando Herois ficarem com Stamina Full.')
+                    print(time.strftime(" %H:%M:%S") + ' - [Bombot] > Aguardando heroi ficar com Stamina full. ou algum heroi em Work.')
 
                     if pyautogui.locateOnScreen('./src/workOn.png') != None:
-                        workOn = True
                         print(time.strftime(" %H:%M:%S") + ' - [Bombot] > Encontrei um heroi em Work.')
                         break
                     
                     if pyautogui.locateOnScreen('./src/maxStamina.png') != None:
-                        print(time.strftime(" %H:%M:%S") + ' - [Bombot] > Encontrei 1 Heroi com stamina full, Vou colocar todos para Work.')
+                        print(time.strftime(" %H:%M:%S") + ' - [Bombot] > Um heroi ou mais acabou de carregar stamina.')
                         break
                     time.sleep(30)
             
         xBtn = pyautogui.locateOnScreen('./src/xBtn.png', grayscale=True, confidence=0.8)
         x,y = pyautogui.center(xBtn)
         print(time.strftime(" %H:%M:%S") + ' - [Bombot] > Fechando janela de herois.')
+        click(x,y)
+        time.sleep(random.uniform(2,3))
+
+    if pyautogui.locateOnScreen('./src/inGame.png') != None and workOn == False:
+        backBtn = pyautogui.locateOnScreen('./src/backButton.png', grayscale=True, confidence=0.8)
+        x,y = pyautogui.center(backBtn)
+        print(time.strftime(" %H:%M:%S") + ' - [Bombot] > Você me iniciou no modo Teasure Hunt. \n Vou voltar para o menu principal é começar novamente.')
         click(x,y)
         time.sleep(random.uniform(2,3))
 
@@ -140,7 +149,7 @@ while checkServerStatus():
         time_start = time.time()
 
         while time.time() - time_start < time_duration:
-            print(time.strftime(" %H:%M:%S") + ' - [Bombot] > Aguardando Herois trabalharem ou o mapa ser finalizado.')
+            print(time.strftime(" %H:%M:%S") + ' - [Bombot] > Aguardando Herois Trabalhar.')
             if pyautogui.locateOnScreen('./src/newMap.png') != None:
                 print(time.strftime(" %H:%M:%S") + ' - [Bombot] > Mapa Completo! Aguardando nova TeasureHunt. Total de Mapas Completos: ' + str(mapCount))
                 mapCount += 1
@@ -154,4 +163,6 @@ while checkServerStatus():
         click(x,y)
         time.sleep(random.uniform(2,3))
 
-    print(time.strftime(" %H:%M:%S") + " ====================================================")
+    print("======================= "+time.strftime(" %H:%M:%S")+" =============================")
+    print('             Total de Mapas Concluidos: ' + str(mapCount))
+    print('================================================================')
