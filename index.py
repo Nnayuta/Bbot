@@ -3,7 +3,6 @@ import pyautogui
 import time
 import random
 
-serverStatus = False
 workOn = False
 mapCount = 0
 
@@ -30,20 +29,17 @@ def checkServerStatus():
     """
     Verifica o status do servidor.
     """
-    print(time.strftime(" %H:%M:%S") + ' - [Bombot] > Verificando o status do servidor...')
     if pyautogui.locateOnScreen('./src/statusMaintenace.png', confidence=0.9) != None or pyautogui.locateOnScreen('./src/statusOffline.png', confidence=0.9) != None:
-        print(time.strftime(" %H:%M:%S") + ' - [Bombot] > Servidor offline ou em Manutenção.')
-        time_duration = random.uniform(returnSeconds(4),returnSeconds(5))
-        time_start = time.time()
-        
-        while time.time() - time_start < time_duration:
-            print(time.strftime(" %H:%M:%S") + ' - [Bombot] > Aguardando o retorno do servidor.')
+        while True:
+            print(time.strftime(" %H:%M:%S") + ' - [Bombot] > Verificando o status do servidor...')
             if pyautogui.locateOnScreen('./src/statusOnline.png') != None:
-                print(time.strftime(" %H:%M:%S") + ' - [Bombot] > Servidor online.')
+                print(time.strftime(" %H:%M:%S") + ' - [Bombot] > Servidor voltou ao normal.')
                 return True
-            time.sleep(30)
-            return False
-    else:
+            else:
+                print(time.strftime(" %H:%M:%S") + ' - [Bombot] > Servidor OFFLINE ou MANUTENÇÃO.')
+                time.sleep(20)
+
+    elif pyautogui.locateOnScreen('./src/statusOnline.png', confidence=0.9) != None:
         print(time.strftime(" %H:%M:%S") + ' - [Bombot] > Servidor online.')
         return True
 
