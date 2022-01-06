@@ -163,6 +163,6 @@ while checkServerStatus():
         click(x,y)
         time.sleep(random.uniform(2,3))
 
-    print("======================= "+time.strftime(" %H:%M:%S")+" =============================")
+    print("========================== "+time.strftime(" %H:%M:%S")+" ==========================")
     print('             Total de Mapas Concluidos: ' + str(mapCount))
-    print('================================================================')
+    print('===============================================================')
