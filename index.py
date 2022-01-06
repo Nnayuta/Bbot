@@ -153,10 +153,12 @@ try:
                     time_duration = random.uniform(
                         returnSeconds(config['timeMinToVerifyStamina']), returnSeconds(config['timeMaxToVerifyStamina']))
                     time_start = time.time()
+                    timeSendMsg = 0
 
                     while time.time() - time_start < time_duration:
-                        botSay(
-                            'Aguardando heroi ficar com Stamina full. ou algum heroi em Work.')
+                        if timeSendMsg == 0 or timeSendMsg == 60:
+                            botSay('Aguardando heroi ficar com Stamina full. ou algum heroi em Work.')
+                            timeSendMsg = 0
 
                         if pyautogui.locateOnScreen('./src/workOn.png') != None:
                             botSay('Encontrei um heroi em Work.')
@@ -165,6 +167,7 @@ try:
                         if pyautogui.locateOnScreen('./src/maxStamina.png') != None:
                             botSay('Um heroi ou mais acabou de carregar stamina.')
                             break
+                        timeSendMsg += (config['timeToVerifyStaminaFull']/2)
                         time.sleep(config['timeToVerifyStaminaFull'])
 
             xBtn = pyautogui.locateOnScreen('./src/xBtn.png', grayscale=True, confidence=0.8)
