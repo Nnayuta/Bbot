@@ -193,14 +193,20 @@ try:
             # Aguarda os Herois trabalharem por 5~10 minutos.
             time_duration = random.uniform(returnSeconds(config['returnMenuMin']), returnSeconds(config['returnMenuMax']))
             time_start = time.time()
+            sendmsg = 0
 
             while time.time() - time_start < time_duration:
-                botSay('Aguardando Herois Trabalhar.')
+                if sendmsg == 60 or sendmsg == 0: 
+                    botSay('Aguardando herois trabalharem ou um mapa ser concluido.')
+                    sendmsg = 0
+
                 if pyautogui.locateOnScreen('./src/newMap.png') != None:
-                    botSay('Mapa Completo! Aguardando nova TeasureHunt. Total de Mapas Completos: ' + str(mapCount))
                     mapCount += 1
+                    botSay('Mapa Completo! Aguardando nova TeasureHunt. Total de Mapas concluidos: ' + str(mapCount))
                     time.sleep(random.uniform(12, 15))
-                time.sleep(60)
+                    break
+                sendmsg += 5
+                time.sleep(5)
 
             # Volta para o menu principal para "salvar" o progresso.
             backBtn = pyautogui.locateOnScreen('./src/backButton.png', grayscale=True, confidence=0.8)
