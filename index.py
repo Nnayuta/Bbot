@@ -78,15 +78,26 @@ try:
 
     # Loop principal do bot
     while bot:
-
     ########################################################################################################################
 
         # Verifica se existe algum erro na tela e pressiona Ok
         if pyautogui.locateOnScreen('./src/ErrOK.png', grayscale=True, confidence=0.8) != None:
-            OkBtn = pyautogui.locateOnScreen('./src/ErrOK.png', grayscale=True, confidence=0.8)
-            x, y = pyautogui.center(OkBtn)
-            click(x, y)
-            time.sleep(random.uniform(12, 17))
+            botSay('Encontrei um erro...')
+            pyautogui.hold('ctrl')
+            pyautogui.press('f5')
+            time.sleep(random.uniform(15, 20))
+
+        if pyautogui.locateOnScreen('./src/Status.png', grayscale=True, confidence=0.8) != None:
+            botSay("Servidor Online.")
+            time.sleep(random.uniform(1, 2))
+        else:
+            botSay("Servidor Offline.")
+            time.sleep(random.uniform(60, 120))
+            pyautogui.hold('ctrl')
+            pyautogui.press('f5')
+            time.sleep(random.uniform(1, 3))
+            break
+
 
     ########################################################################################################################
 
@@ -106,12 +117,13 @@ try:
                 click(x, y)
                 time.sleep(random.uniform(15, 20))
 
-            if pyautogui.locateOnScreen('./src/UserNotLogged.png', grayscale=True, confidence=0.8) != None:
-                okButton = pyautogui.locateOnScreen('./src/ErrOK.png', grayscale=True, confidence=0.8)
-                x, y = pyautogui.center(okButton)
+
+            if pyautogui.locateOnScreen('./src/ErrOK.png', grayscale=True, confidence=0.8) != None:
+                pyautogui.hold('ctrl')
+                pyautogui.press('f5')
                 botSay('Falha ao logar no jogo. Tentando novamente...')
-                click(x, y)
                 time.sleep(random.uniform(15, 20))
+                break
 
     ########################################################################################################################
 
@@ -127,12 +139,16 @@ try:
 
             # Procurar 1 heroi com stamina full é coloca todos os herois para trabalhar
             if pyautogui.locateOnScreen('./src/maxStamina.png') != None:
-                workAll = pyautogui.locateOnScreen('./src/workAll.png', grayscale=True, confidence=0.8)
-                x, y = pyautogui.center(workAll)
-                botSay('Colocando todos os herois para trabalhar.')
-                click(x, y)
-                workOn = True
-                time.sleep(random.uniform(2, 3))
+                if pyautogui.locateOnScreen('./src/workOn.png') != None:
+                    workOn = True
+                    botSay('Encontrei heroi(s) em Work. é com stamina full.')
+                else :
+                    workAll = pyautogui.locateOnScreen('./src/workAll.png', confidence=0.8)
+                    x, y = pyautogui.center(workAll)
+                    botSay('Colocando todos os herois para trabalhar.')
+                    click(x, y)
+                    workOn = True
+                    time.sleep(random.uniform(2, 3))
             else:
                 botSay('Não tem herois com stamina full.')
                 time.sleep(random.uniform(1, 2))
@@ -142,8 +158,7 @@ try:
                 else:
                     workOn = False
                     # Tempo em minutos que a janela vai fica aguardando um heroi fica full. apos isso feche e abra novamente.
-                    time_duration = random.uniform(
-                        returnSeconds(config['timeMinToVerifyStamina']), returnSeconds(config['timeMaxToVerifyStamina']))
+                    time_duration = random.uniform(returnSeconds(config['timeMinToVerifyStamina']), returnSeconds(config['timeMaxToVerifyStamina']))
                     time_start = time.time()
                     timeSendMsg = 0
 
@@ -217,6 +232,3 @@ try:
 except Exception as erro:
     print("Isso não deveria acontecer... mas aconteceu!: " + erro)
     time.sleep(10)
-
-
-    #time.strftime(timeString)
