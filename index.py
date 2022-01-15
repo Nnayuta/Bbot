@@ -167,6 +167,12 @@ try:
                             botSay('Aguardando heroi ficar com Stamina full. ou algum heroi em Work.')
                             timeSendMsg = 0
 
+                            if pyautogui.locateOnScreen('./src/ErrOK.png', grayscale=True, confidence=0.8) != None:
+                                botSay('Encontrei um erro...')
+                                pyautogui.hold('ctrl')
+                                pyautogui.press('f5')
+                                time.sleep(random.uniform(15, 20))
+                        
                         if pyautogui.locateOnScreen('./src/workOn.png') != None:
                             botSay('Encontrei um heroi em Work.')
                             break
