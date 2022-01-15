@@ -29,12 +29,12 @@ config = {
 }
 
 # Gera o log de forma mais organizada.
-timeString = " [%H:%M:%S]"
+timeString = "[%H:%M:%S]"
 def botSay(text):
     """
     Função de log para o bot personalizada.
     """
-    print(time.strftime(timeString) + ' - [Bombot] > ' + text)
+    print(' {} - [Bombot] > {}'.format(time.strftime(timeString), text))
 
 # Move o Mouse e clica
 
@@ -82,19 +82,11 @@ try:
     ########################################################################################################################
 
         # Verifica se existe algum erro na tela e pressiona Ok
-        errList = {
-            'socketErr': 'socketErr',
-            'idle': 'idle',
-            'wrongVersion': 'wrongVersion', # Lembra de fazer um atualização na função para desativar o bot
-            'unstable': 'unstable',  # Lembra de fazer um atualização na função para desativar o bot
-        }
-        for err in errList:
-            if pyautogui.locateOnScreen('./src/' + err + '.png', grayscale=True, confidence=0.8) != None:
-                OkBtn = pyautogui.locateOnScreen(
-                    './src/ErrOK.png', grayscale=True, confidence=0.8)
-                x, y = pyautogui.center(OkBtn)
-                click(x, y)
-                time.sleep(random.uniform(10, 15))
+        if pyautogui.locateOnScreen('./src/ErrOK.png', grayscale=True, confidence=0.8) != None:
+            OkBtn = pyautogui.locateOnScreen('./src/ErrOK.png', grayscale=True, confidence=0.8)
+            x, y = pyautogui.center(OkBtn)
+            click(x, y)
+            time.sleep(random.uniform(12, 17))
 
     ########################################################################################################################
 
@@ -218,10 +210,13 @@ try:
             click(x, y)
             time.sleep(random.uniform(2, 3))
 
-        print("========================== "+time.strftime(timeString)+" ==========================")
-        print('             Total de Mapas Concluidos: ' + str(mapCount))
-        print('===============================================================')
+        print('{:=^50}'.format(time.strftime(' [%H:%M:%S] ')))
+        print('{:=^50}'.format(' Total de mapas concluidos: {} '.format(str(mapCount))))
+        print('='*50)
 
 except Exception as erro:
     print("Isso não deveria acontecer... mas aconteceu!: " + erro)
     time.sleep(10)
+
+
+    #time.strftime(timeString)
