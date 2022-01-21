@@ -69,6 +69,8 @@ def returnGreeting():
     else:
         return 'Boa noite!'
 
+#=======================================================#
+
 # Inicia o bot com uma mensagem de boas vindas.
 botSay(returnGreeting() + ' Estou Iniciando...')
 time.sleep(5)  # Espera 5 segundos para iniciar o bot.
@@ -78,14 +80,15 @@ try:
 
     # Loop principal do bot
     while bot:
-    ########################################################################################################################
+    #===========================================================================================================================#
 
         # Verifica se existe algum erro na tela e pressiona Ok
         if pyautogui.locateOnScreen('./src/ErrOK.png', grayscale=True, confidence=0.8) != None:
-            botSay('Encontrei um erro...')
             pyautogui.hold('ctrl')
             pyautogui.press('f5')
+            botSay('ERRO REINICIANDO...')
             time.sleep(random.uniform(15, 20))
+            break
 
         if pyautogui.locateOnScreen('./src/Status.png', grayscale=True, confidence=0.8) != None:
             botSay("Servidor Online.")
@@ -99,7 +102,7 @@ try:
             break
 
 
-    ########################################################################################################################
+   #===========================================================================================================================#
 
         # Apos passa na verificação de erros se conecta ao jogo.
         if pyautogui.locateOnScreen('./src/ConnectButton.png', grayscale=True, confidence=0.8) != None:
@@ -117,18 +120,25 @@ try:
                 click(x, y)
                 time.sleep(random.uniform(15, 20))
 
-
             if pyautogui.locateOnScreen('./src/ErrOK.png', grayscale=True, confidence=0.8) != None:
                 pyautogui.hold('ctrl')
                 pyautogui.press('f5')
-                botSay('Falha ao logar no jogo. Tentando novamente...')
+                botSay('ERRO REINICIANDO...')
                 time.sleep(random.uniform(15, 20))
                 break
+
 
     ########################################################################################################################
 
         # Apos logar no jogo vai ate a tela de Herois a procura de herois com stamina full
         if pyautogui.locateOnScreen('./src/heroScreen.png', grayscale=True, confidence=0.8) != None or pyautogui.locateOnScreen('./src/herobutton.png', grayscale=True, confidence=0.8) != None or pyautogui.locateOnScreen('./src/maxStamina.png', grayscale=True, confidence=0.8) != None or pyautogui.locateOnScreen('./src/workOn.png', grayscale=True, confidence=0.8) != None:
+
+            if pyautogui.locateOnScreen('./src/ErrOK.png', grayscale=True, confidence=0.8) != None:
+                pyautogui.hold('ctrl')
+                pyautogui.press('f5')
+                botSay('ERRO REINICIANDO...')
+                time.sleep(random.uniform(15, 20))
+                break
             
             if pyautogui.locateOnScreen('./src/herobutton.png', grayscale=True, confidence=0.8) != None:
                 heroBtn = pyautogui.locateOnScreen('./src/herobutton.png', grayscale=True, confidence=0.8)
@@ -137,11 +147,23 @@ try:
                 click(x, y)
                 time.sleep(random.uniform(2, 3))
 
-            # Procurar 1 heroi com stamina full é coloca todos os herois para trabalhar
+            # Procurar 1 heroi com stamina full e coloca todos os herois para trabalhar
             if pyautogui.locateOnScreen('./src/maxStamina.png') != None:
+
+                if pyautogui.locateOnScreen('./src/ErrOK.png', grayscale=True, confidence=0.8) != None:
+                    pyautogui.hold('ctrl')
+                    pyautogui.press('f5')
+                    botSay('ERRO REINICIANDO...')
+                    time.sleep(random.uniform(15, 20))
+                    break
+
                 if pyautogui.locateOnScreen('./src/workOn.png') != None:
+                    workAll = pyautogui.locateOnScreen('./src/workAll.png', confidence=0.8)
+                    x, y = pyautogui.center(workAll)
+                    click(x, y)
                     workOn = True
                     botSay('Encontrei heroi(s) em Work. é com stamina full.')
+                    time.sleep(random.uniform(2, 3))
                 else :
                     workAll = pyautogui.locateOnScreen('./src/workAll.png', confidence=0.8)
                     x, y = pyautogui.center(workAll)
@@ -150,6 +172,14 @@ try:
                     workOn = True
                     time.sleep(random.uniform(2, 3))
             else:
+                
+                if pyautogui.locateOnScreen('./src/ErrOK.png', grayscale=True, confidence=0.8) != None:
+                    pyautogui.hold('ctrl')
+                    pyautogui.press('f5')
+                    botSay('ERRO REINICIANDO...')
+                    time.sleep(random.uniform(15, 20))
+                    break
+
                 botSay('Não tem herois com stamina full.')
                 time.sleep(random.uniform(1, 2))
                 if pyautogui.locateOnScreen('./src/workOn.png') != None:
@@ -167,11 +197,12 @@ try:
                             botSay('Aguardando heroi ficar com Stamina full. ou algum heroi em Work.')
                             timeSendMsg = 0
 
-                            if pyautogui.locateOnScreen('./src/ErrOK.png', grayscale=True, confidence=0.8) != None:
-                                botSay('Encontrei um erro...')
-                                pyautogui.hold('ctrl')
-                                pyautogui.press('f5')
-                                time.sleep(random.uniform(15, 20))
+                        if pyautogui.locateOnScreen('./src/ErrOK.png', grayscale=True, confidence=0.8) != None:
+                            pyautogui.hold('ctrl')
+                            pyautogui.press('f5')
+                            botSay('ERRO REINICIANDO...')
+                            time.sleep(random.uniform(15, 20))
+                            break
                         
                         if pyautogui.locateOnScreen('./src/workOn.png') != None:
                             botSay('Encontrei um heroi em Work.')
@@ -212,6 +243,13 @@ try:
             sendmsg = 0
 
             while time.time() - time_start < time_duration:
+                if pyautogui.locateOnScreen('./src/ErrOK.png', grayscale=True, confidence=0.8) != None:
+                    pyautogui.hold('ctrl')
+                    pyautogui.press('f5')
+                    botSay('ERRO REINICIANDO...')
+                    time.sleep(random.uniform(15, 20))
+                    break
+
                 if sendmsg == 60 or sendmsg == 0: 
                     botSay('Aguardando herois trabalharem ou um mapa ser concluido.')
                     sendmsg = 0
