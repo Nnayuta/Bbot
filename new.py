@@ -45,7 +45,7 @@ def getGreeting():
         return 'Boa noite!'
 
 botSay(getGreeting() + ", Estou Iniciando...")
-
+time.sleep(2)
 while True:
     try:
         #Verifica o Status do servidor
@@ -55,7 +55,7 @@ while True:
             botSay("Servidor Online!")
         else:
             botSay("Servidor offline! ou está em manutenção!")
-            time.sleep(60,120)
+            time.sleep(random.uniform(60, 120))
             pyautogui.hold('ctrl')
             pyautogui.press('f5')
             time.sleep(random.uniform(1, 3))
