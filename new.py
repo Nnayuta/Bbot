@@ -47,20 +47,20 @@ def getGreeting():
 botSay(getGreeting() + ", Estou Iniciando...")
 time.sleep(2)
 while True:
-    try:
-        #Verifica o Status do servidor
-        Status = pyautogui.locateOnScreen('src/Status.png')
-        #Se o status for encontrado, o bot está online
-        if Status:
-            botSay("Servidor Online!")
-        else:
-            botSay("Servidor offline! ou está em manutenção!")
-            time.sleep(random.uniform(60, 120))
-            pyautogui.hold('ctrl')
-            pyautogui.press('f5')
-            time.sleep(random.uniform(1, 3))
-    except:
-        continue
+    # try:
+    #     #Verifica o Status do servidor
+    #     Status = pyautogui.locateOnScreen('src/Status.png')
+    #     #Se o status for encontrado, o bot está online
+    #     if Status:
+    #         botSay("Servidor Online!")
+    #     else:
+    #         botSay("Servidor offline! ou está em manutenção!")
+    #         time.sleep(random.uniform(60, 120))
+    #         pyautogui.hold('ctrl')
+    #         pyautogui.press('f5')
+    #         time.sleep(random.uniform(1, 3))
+    # except:
+    #     continue
 
     try:
         connectButton = pyautogui.locateOnScreen('src/ConnectButton.png')
