@@ -223,7 +223,7 @@ while True:
                 botSay("Indo para TreasureHunt...")
                 time.sleep(random.uniform(5, 10))
 
-                time_duration = minToSec(random.randint(5, 10))
+                time_duration = minToSec(random.randint(5, 8))
                 time_start = time.time()
                 sendMsg = 0
                 while time.time() - time_start < time_duration:
