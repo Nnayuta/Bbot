@@ -13,7 +13,6 @@ def botSay(text):
     timeString = "[%H:%M:%S]"
     print(' {} - [Bombot 2.0] > {}'.format(time.strftime(timeString), text))
 
-
 #Função pra fazer o bot clicar com pyautogui com delay de alguns segundos
 def botClick(x, y):
     """
@@ -47,20 +46,6 @@ def getGreeting():
 botSay(getGreeting() + ", Estou Iniciando...")
 time.sleep(2)
 while True:
-    # try:
-    #     #Verifica o Status do servidor
-    #     Status = pyautogui.locateOnScreen('src/Status.png')
-    #     #Se o status for encontrado, o bot está online
-    #     if Status:
-    #         botSay("Servidor Online!")
-    #     else:
-    #         botSay("Servidor offline! ou está em manutenção!")
-    #         time.sleep(random.uniform(60, 120))
-    #         pyautogui.hold('ctrl')
-    #         pyautogui.press('f5')
-    #         time.sleep(random.uniform(1, 3))
-    # except:
-    #     continue
 
     try:
         connectButton = pyautogui.locateOnScreen('src/ConnectButton.png')
@@ -201,7 +186,7 @@ while True:
             pass
 
         try:
-            inGame = pyautogui.locateOnScreen('src/inGame.png')
+            inGame = pyautogui.locateOnScreen('src/backButton.png')
             if inGame and workStatus == False:
                 #Volta pro menu principal procurando o botão de voltar "backButton".
                 backButton = pyautogui.locateOnScreen('src/backButton.png')
