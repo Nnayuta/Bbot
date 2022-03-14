@@ -1,4 +1,3 @@
-from platform import release
 import pyautogui
 from pyautogui import *
 from time import sleep  
