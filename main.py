@@ -82,11 +82,18 @@ while True:
     HeroMenu = getTarget('HeroMenu')
     if HeroMenu:
 
-        WorkOff = getTarget('WorkOff', grayscale=False, confidence=0.95)
-        WorkOn = getTarget('WorkOn', grayscale=False, confidence=0.95)
+        WorkOn = getTarget('WorkOn', grayscale=False, confidence=0.98)
+        WorkOff = getTarget('WorkOff', grayscale=False, confidence=0.98)
         StaminaFull = getTarget('StaminaFull')
 
-        if WorkOff:
+        if WorkOn:
+            say("Heroes in WorkOn...")
+            Working = True
+            HeroMenuClose = getTarget('HeroMenuClose')
+            if HeroMenuClose:
+                click(HeroMenuClose, sleepTime=1)
+
+        elif WorkOff:
             say("Heroes in WorkOff...")
             Working = False
             StaminaFull = getTarget('StaminaFull')
@@ -96,13 +103,6 @@ while True:
                 if workAll:
                     say("Working All...")
                     click(workAll, sleepTime=1)
-
-        elif WorkOn:
-            say("Heroes in WorkOn...")
-            Working = True
-            HeroMenuClose = getTarget('HeroMenuClose')
-            if HeroMenuClose:
-                click(HeroMenuClose, sleepTime=1)
 
         elif not StaminaFull:
             say("Waiting for Stamina...")
