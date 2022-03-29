@@ -1,7 +1,6 @@
 import pyautogui
 from pyautogui import *
 from time import sleep  
-from random import randint
 from random import uniform
 
 Working = False
@@ -111,7 +110,3 @@ while True:
             HeroMenuClose = getTarget('HeroMenuClose')
             if HeroMenuClose:
                 click(HeroMenuClose, sleepTime=1)
-             
-        
-
-        
