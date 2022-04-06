@@ -1,3 +1,5 @@
+from ast import Break
+from cv2 import repeat
 import pyautogui
 from pyautogui import *
 from time import sleep  
@@ -27,6 +29,7 @@ def getTarget(name, confidence = 0.9, grayscale=False):
             if split[0] == name:
                 return pyautogui.locateCenterOnScreen('target/'+file, confidence=confidence, grayscale=grayscale)
 
+
 say("Starting...")
 while True:
 
@@ -37,6 +40,7 @@ while True:
         pyautogui.hold('ctrl')
         pyautogui.press('f5')
 
+    #Login
     LoginScreen = getTarget('LoginScreen')
     if LoginScreen:
         Connect = getTarget('Connect')
@@ -44,15 +48,16 @@ while True:
             say("Connecting...")
             click(Connect, sleepTime=5)
         
-        MetaConnect = getTarget('MetaConnect')
-        if MetaConnect:
-            say("Connecting MetaMask...")
-            click(MetaConnect, sleepTime=5)
+    MetaConnect = getTarget('MetaConnect')
+    if MetaConnect:
+        say("Connecting MetaMask...")
+        click(MetaConnect, sleepTime=5)
         
-        AssinarMeta = getTarget('AssinarMeta')
-        if AssinarMeta:
-            say("Assinando MetaMask...")
-            click(AssinarMeta, sleepTime=5)
+    AssinarMeta = getTarget('AssinarMeta')
+    if AssinarMeta:
+        say("Assinando MetaMask...")
+        click(AssinarMeta, sleepTime=5)
+    #END Login
 
     TeasureHunt = getTarget('TeasureHunt')
     if TeasureHunt and Working:
@@ -62,8 +67,7 @@ while True:
     Heroes = getTarget('Heroes')
     if Heroes:
         say("Menu Heroes...")
-        click(Heroes, sleepTime=1)
-
+        click(Heroes, sleepTime=uniform(2,3))
     
     InGameBack = getTarget('InGameBack')
     if InGameBack and Working:
@@ -80,33 +84,34 @@ while True:
     
     HeroMenu = getTarget('HeroMenu')
     if HeroMenu:
-
-        WorkOn = getTarget('WorkOn', grayscale=False, confidence=0.98)
-        WorkOff = getTarget('WorkOff', grayscale=False, confidence=0.98)
         StaminaFull = getTarget('StaminaFull')
+        WorkOn = getTarget('WorkOn', confidence=0.99)
 
-        if WorkOn:
-            say("Heroes in WorkOn...")
+        if not StaminaFull and not WorkOn:
+            say("Waiting for Stamina or WorkOn...")
+            sleep(uniform(30,60))    
+            StaminaFull = getTarget('StaminaFull')
+            WorkOn = getTarget('WorkOn')
+
+            HeroMenuClose = getTarget('HeroMenuClose')
+            if HeroMenuClose:
+                click(HeroMenuClose, sleepTime=1)
+                continue
+
+            if StaminaFull or WorkOn:
+                continue
+
+        elif WorkOn:
+            say("Hero(s) in 'WorkON' ")
             Working = True
             HeroMenuClose = getTarget('HeroMenuClose')
             if HeroMenuClose:
                 click(HeroMenuClose, sleepTime=1)
+                continue
 
-        elif WorkOff:
-            say("Heroes in WorkOff...")
-            Working = False
-            StaminaFull = getTarget('StaminaFull')
-            if StaminaFull:
-                say("Stamina Full...")
-                workAll = getTarget('workAll')
-                if workAll:
-                    say("Working All...")
-                    click(workAll, sleepTime=1)
-
-        elif not StaminaFull:
-            say("Waiting for Stamina...")
-            Working = False
-            sleep(uniform(60, 120))
-            HeroMenuClose = getTarget('HeroMenuClose')
-            if HeroMenuClose:
-                click(HeroMenuClose, sleepTime=1)
+        elif StaminaFull:
+            say("Stamina is full...")
+            workAll = getTarget('workAll')
+            if workAll:
+                click(workAll, sleepTime=1)
+                continue
