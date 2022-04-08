@@ -1,16 +1,14 @@
-from ast import Break
-from cv2 import repeat
 import pyautogui
-from pyautogui import *
-from time import sleep  
-from random import uniform
+from os import listdir
+from time import sleep, strftime
+from random import randint, uniform
 
+timeString = strftime("[%H:%M:%S]")
+botName = "BombCryto"
+version = "3.1"
 Working = False
 
 def say(message):
-    timeString = time.strftime("[%H:%M:%S]")
-    botName = "BombCryto"
-    version = "3.0"
     print('{} {} {}: {}'.format(timeString, botName, version, message))
 
 def click(location, sleepTime=0.1, click= True):
@@ -23,13 +21,13 @@ def click(location, sleepTime=0.1, click= True):
     sleep(sleepTime)
 
 def getTarget(name, confidence = 0.9, grayscale=False):
-    for file in os.listdir('target'):
+    for file in listdir('target'):
         if file.endswith(".png"):
             split = file.split('.')
             if split[0] == name:
                 return pyautogui.locateCenterOnScreen('target/'+file, confidence=confidence, grayscale=grayscale)
 
-
+input('{} {} {}: {}'.format(timeString, botName, version, 'Press Enter to start'))
 say("Starting...")
 while True:
 
@@ -71,8 +69,9 @@ while True:
     
     InGameBack = getTarget('InGameBack')
     if InGameBack and Working:
-        sleepTime = uniform(180,300)
-        say("Waiting {} minutes...".format(sleepTime/60))
+        sleepTime = randint(180,300)
+        sleep_Text = str("{0:.2f}".format(sleepTime/60)).split('.')
+        say("Waiting [00:0{}:{}]".format(int(sleep_Text[0]), int(sleep_Text[1])))
         sleep(sleepTime)
         say("Returning to menu to save progress...")
         Working = False
