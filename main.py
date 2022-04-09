@@ -38,7 +38,7 @@ def screenshot():
     if time_to_start == 0:
         time_to_start = time()
         time_to_end = time_at_screen * 60 * 60
-        say('Start {:.0f} - End {}'.format(time_to_start - time(), time_to_end))
+        say('taking screenshot in {:.0f} hora'.format(time_to_end/3600))
     
     if time() - time_to_start >= time_to_end and time_to_start != 0:
         chest = getTarget('chest')
@@ -46,7 +46,7 @@ def screenshot():
             click(chest)
             sleep(0.5)
             pyautogui.screenshot('screenshots/{}-{}.png'.format(botName, strftime("%H-%M-%S")))
-            say('Saving screenshot')
+            say('Saving screenshot at {:.1f}'.format(time() - time_to_start))
             chestClose = getTarget('chestClose')
             if chestClose:
                 click(chestClose)
