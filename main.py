@@ -1,14 +1,17 @@
 import pyautogui
 from os import listdir
-from time import sleep, strftime
+from time import sleep, strftime, time
 from random import randint, uniform
 
-timeString = strftime("[%H:%M:%S]")
 botName = "BombCryto"
 version = "3.1"
 Working = False
 
+print_cada_hora = 1 #Hora
+hora_agora = 0
+
 def say(message):
+    timeString = strftime("[%H:%M:%S]")
     print('{} {} {}: {}'.format(timeString, botName, version, message))
 
 def click(location, sleepTime=0.1, click= True):
@@ -27,8 +30,28 @@ def getTarget(name, confidence = 0.9, grayscale=False):
             if split[0] == name:
                 return pyautogui.locateCenterOnScreen('target/'+file, confidence=confidence, grayscale=grayscale)
 
-input('{} {} {}: {}'.format(timeString, botName, version, 'Press Enter to start'))
-say("Starting...")
+def screenshot():
+    horaAgr = 0
+    global hora_agora
+    if hora_agora == 0:
+        horaAgr = print_cada_hora * 60 * 60
+        hora_agora = time()
+    
+    if time() - hora_agora >= horaAgr and hora_agora != 0:
+        hora_agora = 0
+        chest = getTarget('chest')
+        if chest:
+            click(chest)
+            sleep(0.5)
+            pyautogui.screenshot('screenshots/{}-{}.png'.format(botName, strftime("%H-%M-%S")))
+            say('Saving screenshot')
+            chestClose = getTarget('chestClose')
+            if chestClose:
+                click(chestClose)
+                sleep(0.5)
+
+say("Press Enter to start")
+input()
 while True:
 
     ErroScreen = getTarget('ErroScreen')
@@ -56,6 +79,8 @@ while True:
         say("Assinando MetaMask...")
         click(AssinarMeta, sleepTime=5)
     #END Login
+
+    screenshot()
 
     TeasureHunt = getTarget('TeasureHunt')
     if TeasureHunt and Working:
@@ -87,8 +112,9 @@ while True:
         WorkOn = getTarget('WorkOn', confidence=0.99)
 
         if not StaminaFull and not WorkOn:
-            say("Waiting for Stamina or WorkOn...")
-            sleep(uniform(30,60))    
+            sleep_Time = uniform(30,60)
+            say("Waiting {:.1f} sec for Stamina or WorkOn...".format(sleep_Time))
+            sleep(sleep_Time)    
             StaminaFull = getTarget('StaminaFull')
             WorkOn = getTarget('WorkOn')
 
