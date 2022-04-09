@@ -7,8 +7,9 @@ botName = "BombCryto"
 version = "3.1"
 Working = False
 
-print_cada_hora = 1 #Hora
-hora_agora = 0
+time_at_screen = 1 #Take screnshot in # hors
+time_to_start = 0 #Time started to take screenshot
+time_to_end = 0 #Time end to take screenshot
 
 def say(message):
     timeString = strftime("[%H:%M:%S]")
@@ -31,14 +32,15 @@ def getTarget(name, confidence = 0.9, grayscale=False):
                 return pyautogui.locateCenterOnScreen('target/'+file, confidence=confidence, grayscale=grayscale)
 
 def screenshot():
-    horaAgr = 0
-    global hora_agora
-    if hora_agora == 0:
-        horaAgr = print_cada_hora * 60 * 60
-        hora_agora = time()
+    global time_to_end
+    global time_to_start
+
+    if time_to_start == 0:
+        time_to_start = time()
+        time_to_end = time_at_screen * 60 * 60
+        say('Start {:.0f} - End {}'.format(time_to_start - time(), time_to_end))
     
-    if time() - hora_agora >= horaAgr and hora_agora != 0:
-        hora_agora = 0
+    if time() - time_to_start >= time_to_end and time_to_start != 0:
         chest = getTarget('chest')
         if chest:
             click(chest)
@@ -48,6 +50,7 @@ def screenshot():
             chestClose = getTarget('chestClose')
             if chestClose:
                 click(chestClose)
+                time_to_start = 0
                 sleep(0.5)
 
 say("Press Enter to start")
